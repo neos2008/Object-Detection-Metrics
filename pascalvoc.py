@@ -112,56 +112,60 @@ def getBoundingBoxes(directory,
     # Class_id represents the class of the bounding box
     # x, y represents the most top-left coordinates of the bounding box
     # x2, y2 represents the most bottom-right coordinates of the bounding box
-    for f in files:
-        nameOfImage = f.replace(".txt", "")
-        fh1 = open(f, "r")
-        for line in fh1:
-            line = line.replace("\n", "")
-            if line.replace(' ', '') == '':
-                continue
-            splitLine = line.split(" ")
-            if isGT:
-                # idClass = int(splitLine[0]) #class
-                idClass = (splitLine[0])  # class
-                x = float(splitLine[1])
-                y = float(splitLine[2])
-                w = float(splitLine[3])
-                h = float(splitLine[4])
-                bb = BoundingBox(
-                    nameOfImage,
-                    idClass,
-                    x,
-                    y,
-                    w,
-                    h,
-                    coordType,
-                    imgSize,
-                    BBType.GroundTruth,
-                    format=bbFormat)
-            else:
-                # idClass = int(splitLine[0]) #class
-                idClass = (splitLine[0])  # class
-                confidence = float(splitLine[1])
-                x = float(splitLine[2])
-                y = float(splitLine[3])
-                w = float(splitLine[4])
-                h = float(splitLine[5])
-                bb = BoundingBox(
-                    nameOfImage,
-                    idClass,
-                    x,
-                    y,
-                    w,
-                    h,
-                    coordType,
-                    imgSize,
-                    BBType.Detected,
-                    confidence,
-                    format=bbFormat)
-            allBoundingBoxes.addBoundingBox(bb)
-            if idClass not in allClasses:
-                allClasses.append(idClass)
-        fh1.close()
+    try:
+        for f in files:
+            nameOfImage = f.replace(".txt", "")
+            fh1 = open(f, "r")
+            for line in fh1:
+                line = line.replace("\n", "")
+                if line.replace(' ', '') == '':
+                    continue
+                splitLine = line.split(" ")
+                if isGT:
+                    # idClass = int(splitLine[0]) #class
+                    idClass = (splitLine[0])  # class
+                    x = float(splitLine[1])
+                    y = float(splitLine[2])
+                    w = float(splitLine[3])
+                    h = float(splitLine[4])
+                    bb = BoundingBox(
+                        nameOfImage,
+                        idClass,
+                        x,
+                        y,
+                        w,
+                        h,
+                        coordType,
+                        imgSize,
+                        BBType.GroundTruth,
+                        format=bbFormat)
+                else:
+                    # idClass = int(splitLine[0]) #class
+                    idClass = (splitLine[0])  # class
+                    confidence = float(splitLine[1])
+                    x = float(splitLine[2])
+                    y = float(splitLine[3])
+                    w = float(splitLine[4])
+                    h = float(splitLine[5])
+                    bb = BoundingBox(
+                        nameOfImage,
+                        idClass,
+                        x,
+                        y,
+                        w,
+                        h,
+                        coordType,
+                        imgSize,
+                        BBType.Detected,
+                        confidence,
+                        format=bbFormat)
+                allBoundingBoxes.addBoundingBox(bb)
+                if idClass not in allClasses:
+                    allClasses.append(idClass)
+            fh1.close()
+    except:
+        print(f)
+            
     return allBoundingBoxes, allClasses
 
 
